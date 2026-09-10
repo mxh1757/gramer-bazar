@@ -54,6 +54,11 @@
     "hat_day": {
       "type": "string",
       "title": "Regular Hat Day"
+    },
+    "is_sample": {
+      "type": "boolean",
+      "default": false,
+      "title": "Sample Data"
     }
   },
   "required": [

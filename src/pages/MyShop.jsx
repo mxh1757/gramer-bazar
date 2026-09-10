@@ -23,7 +23,7 @@ export default function MyShop() {
     setLoading(true);
     try {
       const vendors = await base44.entities.Vendor.list();
-      const mine = vendors.find(v => v.created_by_id === user.id) || null;
+      const mine = vendors.find(v => v.created_by_id === user.id && !v.is_sample) || null;
       setVendor(mine);
       if (mine) {
         let prods = [];
