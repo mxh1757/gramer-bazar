@@ -71,6 +71,10 @@
       "type": "string",
       "title": "Village"
     },
+    "vendor_id": {
+      "type": "string",
+      "title": "Vendor ID"
+    },
     "vendor_name": {
       "type": "string",
       "title": "Vendor Name"

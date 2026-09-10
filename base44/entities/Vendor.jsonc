@@ -1,0 +1,66 @@
+{
+  "name": "Vendor",
+  "type": "object",
+  "properties": {
+    "shop_name": {
+      "type": "string",
+      "title": "Shop Name"
+    },
+    "shop_name_bn": {
+      "type": "string",
+      "title": "\u09a6\u09cb\u0995\u09be\u09a8\u09c7\u09b0 \u09a8\u09be\u09ae (Bengali)"
+    },
+    "owner_name": {
+      "type": "string",
+      "title": "Owner Name"
+    },
+    "phone": {
+      "type": "string",
+      "title": "Phone"
+    },
+    "photo_url": {
+      "type": "string",
+      "title": "Photo URL",
+      "format": "uri"
+    },
+    "division": {
+      "type": "string",
+      "title": "Division"
+    },
+    "district": {
+      "type": "string",
+      "title": "District"
+    },
+    "upazila": {
+      "type": "string",
+      "title": "Upazila"
+    },
+    "union": {
+      "type": "string",
+      "title": "Union"
+    },
+    "village": {
+      "type": "string",
+      "title": "Village"
+    },
+    "description": {
+      "type": "string",
+      "title": "Description"
+    },
+    "specialties": {
+      "type": "string",
+      "title": "Specialties (categories)"
+    },
+    "hat_day": {
+      "type": "string",
+      "title": "Regular Hat Day"
+    }
+  },
+  "required": [
+    "shop_name",
+    "owner_name",
+    "division",
+    "district",
+    "upazila"
+  ]
+}

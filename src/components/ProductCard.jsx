@@ -2,6 +2,7 @@ import React from "react";
 import { TrendingUp, TrendingDown, Minus, Mic, MapPin, User, Wheat, Fish, Carrot, Egg, Apple, Flame, ShoppingBasket } from "lucide-react";
 import { CATEGORY_META, UNIT_META } from "@/lib/locations";
 import { Image } from "@/components/ui/image";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const ICONS = { rice: Wheat, fish: Fish, vegetables: Carrot, poultry: Egg, fruits: Apple, spices: Flame, other: ShoppingBasket };
@@ -60,10 +61,17 @@ export default function ProductCard({ product, onVoiceQuery, onCategoryClick }) 
           <span className="truncate">{[product.village, product.union, product.upazila].filter(Boolean).join(", ")}</span>
         </div>
         {product.vendor_name && (
-          <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-3">
-            <User className="w-3.5 h-3.5 text-slate-400" />
-            <span className="truncate">{product.vendor_name}</span>
-          </div>
+          product.vendor_id ? (
+            <Link to={`/vendor/${product.vendor_id}`} className="flex items-center gap-1.5 text-xs text-slate-500 mb-3 hover:text-emerald-700 transition">
+              <User className="w-3.5 h-3.5 text-slate-400" />
+              <span className="truncate font-medium">{product.vendor_name}</span>
+            </Link>
+          ) : (
+            <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-3">
+              <User className="w-3.5 h-3.5 text-slate-400" />
+              <span className="truncate">{product.vendor_name}</span>
+            </div>
+          )
         )}
 
         {onVoiceQuery && (

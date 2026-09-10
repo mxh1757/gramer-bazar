@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from "react";
-import { Plus, Home as HomeIcon, Camera, Search, TrendingUp, TrendingDown, Sun, Loader2, PackageOpen, X } from "lucide-react";
+import { Plus, Store, Camera, Search, TrendingUp, TrendingDown, Sun, Loader2, PackageOpen, X } from "lucide-react";
+import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useOfflineSync } from "@/hooks/useOfflineSync";
 import { useVoiceSearch } from "@/hooks/useVoiceSearch";
@@ -123,6 +124,9 @@ export default function Home() {
           </div>
           <VoiceSearchButton listening={listening} onToggle={toggleVoice} size="pill" />
           <OfflineBanner isOnline={isOnline} pendingCount={pendingCount} syncing={syncing} onSync={syncQueue} />
+          <Link to="/my-shop" className="flex items-center gap-2 h-11 px-4 rounded-full bg-white border border-slate-200 text-slate-700 text-sm font-bold hover:border-emerald-400 hover:text-emerald-700 transition">
+            <Store className="w-4 h-4" /> My Shop
+          </Link>
           <button
             onClick={() => setPostOpen(true)}
             className="flex items-center gap-2 h-11 px-5 rounded-full bg-emerald-600 text-white text-sm font-bold hover:bg-emerald-700 transition shadow-sm"
@@ -139,10 +143,7 @@ export default function Home() {
             <div className="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center shrink-0">
               <Sun className="w-4 h-4 text-white" />
             </div>
-            <div className="min-w-0">
-              <p className="text-sm font-bold text-slate-900 leading-none" style={{ fontFamily: "var(--font-display)" }}>হাটবাজার</p>
-              <p className="text-xs text-slate-500 truncate mt-0.5">{locationLabel}</p>
-            </div>
+            <LocationSelector value={location} onChange={setLocation} compact />
           </div>
           <OfflineBanner isOnline={isOnline} pendingCount={pendingCount} syncing={syncing} onSync={syncQueue} />
         </div>
@@ -240,8 +241,22 @@ export default function Home() {
         </section>
       )}
 
-      {/* ===== FILTER CHIPS (mobile, pinned under header area) ===== */}
-      <div className="lg:hidden px-4 py-3 sticky top-[57px] z-20 bg-slate-50/95 backdrop-blur">
+      {/* ===== FILTER CHIPS (mobile/tablet, pinned under header) ===== */}
+      <div className="lg:hidden px-4 py-2.5 sticky top-[53px] z-20 bg-slate-50/95 backdrop-blur space-y-2">
+        <div className="flex gap-2 overflow-x-auto pb-0.5">
+          {["village", "union", "upazila", "district"].map(r => (
+            <button
+              key={r}
+              onClick={() => setRadius(r)}
+              className={cn(
+                "px-3.5 py-1.5 rounded-full text-xs font-bold whitespace-nowrap border-2 capitalize transition",
+                radius === r ? "bg-emerald-600 text-white border-emerald-600" : "bg-white text-slate-600 border-slate-200 hover:border-emerald-300"
+              )}
+            >
+              {r}
+            </button>
+          ))}
+        </div>
         <CategoryFilter active={category} onChange={setCategory} />
       </div>
 
@@ -295,10 +310,10 @@ export default function Home() {
       {/* ===== MOBILE BOTTOM STICKY BAR ===== */}
       <nav className="lg:hidden fixed bottom-0 inset-x-0 z-30 bg-white border-t border-slate-200 px-4 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]">
         <div className="flex items-center justify-around">
-          <button className="flex flex-col items-center gap-0.5 text-slate-500">
-            <HomeIcon className="w-6 h-6" />
-            <span className="text-[10px] font-semibold">Home</span>
-          </button>
+          <Link to="/my-shop" className="flex flex-col items-center gap-0.5 text-slate-500">
+            <Store className="w-6 h-6" />
+            <span className="text-[10px] font-semibold">My Shop</span>
+          </Link>
           <VoiceSearchButton listening={listening} onToggle={toggleVoice} size="large" />
           <button onClick={() => setPostOpen(true)} className="flex flex-col items-center gap-0.5 text-emerald-600">
             <div className="w-12 h-12 rounded-full bg-emerald-600 flex items-center justify-center -mt-4 shadow-lg ring-4 ring-white">

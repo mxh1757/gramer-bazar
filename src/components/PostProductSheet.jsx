@@ -12,14 +12,15 @@ import { cn } from "@/lib/utils";
 
 const ICONS = { rice: Wheat, fish: Fish, vegetables: Carrot, poultry: Egg, fruits: Apple, spices: Flame, other: ShoppingBasket };
 
-export default function PostProductSheet({ open, onClose, onPosted, defaultLocation, offline, addToQueue }) {
+export default function PostProductSheet({ open, onClose, onPosted, defaultLocation, offline, addToQueue, vendor }) {
   const isMobile = useIsMobile();
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [done, setDone] = useState(false);
   const [form, setForm] = useState(() => ({
     name: "", name_bn: "", category: "rice", price: "", unit: "kg", image_url: "",
-    vendor_name: "", vendor_phone: "", notes: "",
+    vendor_id: vendor?.id || "", vendor_name: vendor?.shop_name || "", vendor_phone: vendor?.phone || "",
+    notes: "",
     division: defaultLocation?.division || "", district: defaultLocation?.district || "",
     upazila: defaultLocation?.upazila || "", union: defaultLocation?.union || "", village: defaultLocation?.village || ""
   }));
