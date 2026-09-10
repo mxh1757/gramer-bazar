@@ -55,6 +55,10 @@
       "type": "string",
       "title": "Regular Hat Day"
     },
+    "owner_user_id": {
+      "type": "string",
+      "title": "Owner User ID"
+    },
     "is_sample": {
       "type": "boolean",
       "default": false,

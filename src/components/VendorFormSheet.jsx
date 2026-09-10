@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { CATEGORY_META, DAY_NAMES, DIVISIONS, getDistricts, getUpazilas, getUnions } from "@/lib/locations";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,7 @@ const ICONS = { rice: Wheat, fish: Fish, vegetables: Carrot, poultry: Egg, fruit
 
 export default function VendorFormSheet({ open, onClose, onSaved, existing = null, defaultLocation = {} }) {
   const isMobile = useIsMobile();
+  const { user } = useAuth();
   const [submitting, setSubmitting] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [done, setDone] = useState(false);
@@ -65,7 +67,7 @@ export default function VendorFormSheet({ open, onClose, onSaved, existing = nul
     const payload = { ...form, specialties: selectedCats.join(", ") };
     try {
       if (existing) await base44.entities.Vendor.update(existing.id, payload);
-      else await base44.entities.Vendor.create(payload);
+      else await base44.entities.Vendor.create({ ...payload, owner_user_id: user?.id });
       setDone(true);
       setTimeout(() => { setDone(false); onClose(); onSaved?.(); }, 1000);
     } catch (e) { console.error(e); }

@@ -44,7 +44,7 @@ export default function VendorProfile() {
   if (loading) return <div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-4 border-emerald-200 border-t-emerald-600 rounded-full animate-spin" /></div>;
   if (!vendor) return <div className="min-h-screen flex flex-col items-center justify-center gap-3"><p className="text-slate-500">Vendor not found.</p><Link to="/" className="text-emerald-600 font-semibold">Go home</Link></div>;
 
-  const isOwner = user && vendor.created_by_id === user.id && !vendor.is_sample;
+  const isOwner = user && vendor.owner_user_id === user.id;
   const specs = vendor.specialties ? vendor.specialties.split(",").map(s => s.trim()).filter(Boolean) : [];
 
   return (
