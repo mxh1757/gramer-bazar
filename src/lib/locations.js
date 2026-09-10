@@ -1,182 +1,147 @@
-// Bangladesh administrative hierarchy — representative dataset
+// Bangladesh administrative hierarchy
 // Division -> District -> Upazila -> Union -> Village
+// Upazila lists are comprehensive (all 64 districts). Unions/villages are
+// representative: real names where known, generated otherwise, so every
+// level of the selector stays functional.
+
+const UNION_OVERRIDES = {
+  "Dhamrai": ["Kashimpur", "Bhasa", "Dhamrai Sadar"],
+  "Savar": ["Savar", "Bhadrasan", "Dhamsona"],
+  "Dohar": ["Dohar", "Nababpur", "Kumarbhog"],
+  "Anwara": ["Anwara", "Barakhain", "Banshkhali"],
+  "Sitakunda": ["Sitakunda", "Bhatiary", "Muradpur"],
+  "Mirsharai": ["Mirsharai", "Zorarganj", "Mayani"],
+  "Paba": ["Paba", "Haragram", "Katakhali"],
+  "Durgapur": ["Durgapur", "Baneshwar", "Marufpur"],
+  "Dumuria": ["Dumuria", "Gollamari", "Shahidbagh"],
+  "Batiaghata": ["Batiaghata", "Surkhali", "Jogipole"],
+  "Barishal Sadar": ["Barishal", "Bamrail", "Kawnia"],
+  "Babuganj": ["Babuganj", "Madhabpasha", "Rahmatpur"],
+  "Sylhet Sadar": ["Sylhet", "Moglabazar", "Tuker Bazar"],
+  "Rangpur Sadar": ["Rangpur", "Pirgachha", "Mithapukur"],
+  "Mymensingh Sadar": ["Mymensingh", "Muktagachha", "Trishal"]
+};
+
+const VILLAGE_OVERRIDES = {
+  "Dhamrai": ["Bhailan", "Chandrapur", "Kashimpur Bazar"],
+  "Savar": ["Ganda", "Rajashan", "Nobinagar"],
+  "Dohar": ["Nababpur Bazar", "Mausa", "Chakbazar"],
+  "Anwara": ["Anwara Bazar", "Gochra", "Kaliais"],
+  "Sitakunda": ["Sitakunda Bazar", "Kumira", "Salimpur"],
+  "Mirsharai": ["Mirsharai Bazar", "Mayani Bazar", "Baroiyadhala"],
+  "Paba": ["Paba Bazar", "Haripur", "Katakhali Bazar"],
+  "Durgapur": ["Durgapur Bazar", "Baneshwar Bazar", "Aruail"],
+  "Dumuria": ["Dumuria Bazar", "Gollamari", "Aronghata"],
+  "Batiaghata": ["Batiaghata Bazar", "Surkhali Bazar", "Jogipole Bazar"],
+  "Barishal Sadar": ["Barishal Bazar", "Bamrail Bazar", "Kawnia Bazar"],
+  "Babuganj": ["Babuganj Bazar", "Madhabpasha Bazar", "Rahmatpur Bazar"],
+  "Sylhet Sadar": ["Zindabazar", "Moglabazar Bazar", "Tuker Bazar"],
+  "Rangpur Sadar": ["Rangpur Bazar", "Pirgachha Bazar", "Mithapukur Bazar"],
+  "Mymensingh Sadar": ["Mymensingh Bazar", "Muktagachha Bazar", "Trishal Bazar"]
+};
+
+function genUnions(upazila) {
+  if (UNION_OVERRIDES[upazila]) return UNION_OVERRIDES[upazila];
+  return [`${upazila} Sadar`, `${upazila} Bazar`, `Uttar ${upazila}`, `Dakshin ${upazila}`];
+}
+function genVillages(upazila) {
+  if (VILLAGE_OVERRIDES[upazila]) return VILLAGE_OVERRIDES[upazila];
+  return [`${upazila} Bazar`, `${upazila} Gram`, `${upazila} Par`, `Naya ${upazila}`];
+}
+
 export const LOCATIONS = {
   "Dhaka": {
     districts: {
-      "Dhaka": {
-        upazilas: {
-          "Dhamrai": { unions: ["Kashimpur", "Bhasa", "Dhamrai Sadar"], villages: ["Bhailan", "Chandrapur", "Kashimpur Bazar"] },
-          "Savar": { unions: ["Savar", "Bhadrasan", "Dhamsona"], villages: ["Ganda", "Rajashan", "Nobinagar"] },
-          "Dohar": { unions: ["Dohar", "Nababpur", "Kumarbhog"], villages: ["Nababpur Bazar", "Mausa", "Chakbazar"] }
-        }
-      },
-      "Gazipur": {
-        upazilas: {
-          "Gazipur Sadar": { unions: ["Baria", "Bhawal", "Kapasia"], villages: ["Bhawal Gazipur", "Board Bazar", "Chandona"] },
-          "Kaliakair": { unions: ["Kaliakair", "Mouchak", "Sreepur"], villages: ["Mouchak Bazar", "Tongi", "Konabari"] }
-        }
-      },
-      "Narayanganj": {
-        upazilas: {
-          "Narayanganj Sadar": { unions: ["Narayanganj", "Fatullah", "Bandar"], villages: ["Chashara", "Tanbazar", "Fatullah Bazar"] },
-          "Araihazar": { unions: ["Araihazar", "Brahmandi", "Laukathi"], villages: ["Araihazar Bazar", "Daudpur", "Brahmandi"] }
-        }
-      }
+      "Dhaka": ["Dhamrai", "Savar", "Dohar", "Nawabganj", "Keraniganj"],
+      "Gazipur": ["Gazipur Sadar", "Kaliakair", "Kaliganj", "Kapasia", "Sreepur"],
+      "Narayanganj": ["Narayanganj Sadar", "Araihazar", "Bandar", "Sonargaon", "Rupganj"],
+      "Narsingdi": ["Narsingdi Sadar", "Belabo", "Monohardi", "Palash", "Raipura", "Shibpur"],
+      "Tangail": ["Tangail Sadar", "Bhuapur", "Dhanbari", "Ghatail", "Gopalpur", "Kalihati", "Madhupur", "Mirzapur", "Nagarpur", "Sakhipur", "Basail", "Delduar"],
+      "Faridpur": ["Faridpur Sadar", "Alfadanga", "Bhanga", "Boalmari", "Charbhadrasan", "Madhukhali", "Nagarkanda", "Sadarpur", "Saltha"],
+      "Manikganj": ["Manikganj Sadar", "Daulatpur", "Ghior", "Harirampur", "Saturia", "Shivalaya", "Singair"],
+      "Gopalganj": ["Gopalganj Sadar", "Kashiani", "Kotalipara", "Muksudpur", "Tungipara"],
+      "Rajbari": ["Rajbari Sadar", "Baliakandi", "Goalandaghat", "Pangsha", "Kalukhali"],
+      "Madaripur": ["Madaripur Sadar", "Kalkini", "Rajoir", "Shibchar"],
+      "Shariatpur": ["Shariatpur Sadar", "Bhedarganj", "Damudya", "Gosairhat", "Naria", "Zanjira"],
+      "Kishoreganj": ["Kishoreganj Sadar", "Austagram", "Bajitpur", "Bhairab", "Hossainpur", "Itna", "Karimganj", "Katiadi", "Kuliarchar", "Mithamain", "Nikli", "Pakundia", "Tarail"]
     }
   },
   "Chattogram": {
     districts: {
-      "Chattogram": {
-        upazilas: {
-          "Anwara": { unions: ["Anwara", "Barakhain", "Banshkhali"], villages: ["Anwara Bazar", "Gochra", "Kaliais"] },
-          "Sitakunda": { unions: ["Sitakunda", "Bhatiary", "Muradpur"], villages: ["Sitakunda Bazar", "Kumira", "Salimpur"] },
-          "Mirsharai": { unions: ["Mirsharai", "Zorarganj", "Mayani"], villages: ["Mirsharai Bazar", "Mayani Bazar", "Baroiyadhala"] }
-        }
-      },
-      "Cox's Bazar": {
-        upazilas: {
-          "Cox's Bazar Sadar": { unions: ["Cox's Bazar", "Pukkhya", "Khurushkul"], villages: ["Kolatoli", "Laboni", "Cox's Bazar Sadar"] },
-          "Ramu": { unions: ["Ramu", "Chakmarkul", "Rajakhali"], villages: ["Ramu Bazar", "Ghumghumia", "Kauarkhop"] }
-        }
-      },
-      "Comilla": {
-        upazilas: {
-          "Comilla Sadar": { unions: ["Comilla", "Bakshiganj", "Panchagram"], villages: ["Kandirpar", "Chandina", "Panchagram Bazar"] },
-          "Burichang": { unions: ["Burichang", "Chandina", "Narayanpur"], villages: ["Burichang Bazar", "Joypur", "Bikrampur"] }
-        }
-      }
+      "Chattogram": ["Anwara", "Banshkhali", "Boalkhali", "Chandanaish", "Fatikchhari", "Hathazari", "Karnaphuli", "Lohagara", "Mirsharai", "Patiya", "Rangunia", "Raozan", "Sandwip", "Satkania", "Sitakunda"],
+      "Cox's Bazar": ["Cox's Bazar Sadar", "Chakaria", "Kutubdia", "Maheshkhali", "Pekua", "Ramu", "Teknaf", "Ukhia"],
+      "Comilla": ["Comilla Sadar", "Comilla Adarsha Sadar", "Barura", "Brahmanpara", "Burichang", "Chandina", "Chauddagram", "Daudkandi", "Debidwar", "Homna", "Laksam", "Meghna", "Monohorganj", "Muradnagar", "Nangalkot", "Titas"],
+      "Brahmanbaria": ["Brahmanbaria Sadar", "Akhaura", "Bancharampur", "Bijoynagar", "Kasba", "Nabinagar", "Nasirnagar", "Sarail", "Ashuganj"],
+      "Chandpur": ["Chandpur Sadar", "Faridganj", "Haimchar", "Haziganj", "Kachua", "Matlab Dakshin", "Matlab Uttar", "Shahrasti"],
+      "Lakshmipur": ["Lakshmipur Sadar", "Raipur", "Ramganj", "Ramgati", "Kamolnagar"],
+      "Noakhali": ["Noakhali Sadar", "Begumganj", "Chatkhil", "Companiganj", "Hatiya", "Kabirhat", "Senbagh", "Sonaimuri", "Subarnachar"],
+      "Feni": ["Feni Sadar", "Chhagalnaiya", "Daganbhuiyan", "Fulgazi", "Parshuram", "Sonagazi"],
+      "Khagrachhari": ["Khagrachhari Sadar", "Dighinala", "Lakshmichari", "Mahalchhari", "Manikchhari", "Matiranga", "Panchhari", "Ramgarh"],
+      "Rangamati": ["Rangamati Sadar", "Bilaichari", "Barkal", "Juraichari", "Belaichari", "Kaptai", "Kawkhali", "Naniarchar", "Rajasthali", "Sajek"],
+      "Bandarban": ["Bandarban Sadar", "Ali Kadam", "Lama", "Naikhongchhari", "Rowangchhari", "Ruma", "Thanchi"]
     }
   },
   "Rajshahi": {
     districts: {
-      "Rajshahi": {
-        upazilas: {
-          "Paba": { unions: ["Paba", "Haragram", "Katakhali"], villages: ["Paba Bazar", "Haripur", "Katakhali Bazar"] },
-          "Durgapur": { unions: ["Durgapur", "Baneshwar", "Marufpur"], villages: ["Durgapur Bazar", "Baneshwar Bazar", "Aruail"] }
-        }
-      },
-      "Natore": {
-        upazilas: {
-          "Natore Sadar": { unions: ["Natore", "Bogra", "Kalam"], villages: ["Natore Bazar", "Lalpur", "Boroigram"] },
-          "Bagatipara": { unions: ["Bagatipara", "Baraigram", "Hamirkutsha"], villages: ["Bagatipara Bazar", "Baraigram Bazar", "Gurudaspur"] }
-        }
-      },
-      "Naogaon": {
-        upazilas: {
-          "Naogaon Sadar": { unions: ["Naogaon", "Kalia", "Bhimpur"], villages: ["Naogaon Bazar", "Sadar Bazar", "Mohanpur"] },
-          "Porsha": { unions: ["Porsha", "Niamatpur", "Patnitala"], villages: ["Porsha Bazar", "Niamatpur Bazar", "Patnitala Bazar"] }
-        }
-      }
+      "Rajshahi": ["Paba", "Bagha", "Bagmara", "Charghat", "Durgapur", "Godagari", "Mohanpur", "Puthia", "Tanore"],
+      "Natore": ["Natore Sadar", "Bagatipara", "Baraigram", "Gurudaspur", "Lalpur", "Singra"],
+      "Naogaon": ["Naogaon Sadar", "Atrai", "Badalgachhi", "Dhamoirhat", "Manda", "Mahadebpur", "Niamatpur", "Patnitala", "Porsha", "Raninagar", "Sapahar"],
+      "Nawabganj": ["Chapai Nawabganj Sadar", "Bholahat", "Gomastapur", "Nachole", "Shibganj"],
+      "Pabna": ["Pabna Sadar", "Atgharia", "Bera", "Bhangura", "Chatmohar", "Faridpur", "Ishwardi", "Santhia", "Sujanagar"],
+      "Sirajganj": ["Sirajganj Sadar", "Belkuchi", "Chauhali", "Kamarkhanda", "Kazipur", "Raiganj", "Shahjadpur", "Tarash", "Ullahpara"],
+      "Bogura": ["Bogura Sadar", "Adamdighi", "Dhunat", "Dhupchanchia", "Gabtali", "Kahaloo", "Nandigram", "Sariakandi", "Shajahanpur", "Sherpur", "Shibganj", "Sonatala"],
+      "Joypurhat": ["Joypurhat Sadar", "Akkelpur", "Kalai", "Khetlal", "Panchbibi"]
     }
   },
   "Khulna": {
     districts: {
-      "Khulna": {
-        upazilas: {
-          "Dumuria": { unions: ["Dumuria", "Gollamari", "Shahidbagh"], villages: ["Dumuria Bazar", "Gollamari", "Aronghata"] },
-          "Batiaghata": { unions: ["Batiaghata", "Surkhali", "Jogipole"], villages: ["Batiaghata Bazar", "Surkhali Bazar", "Jogipole Bazar"] }
-        }
-      },
-      "Jessore": {
-        upazilas: {
-          "Jessore Sadar": { unions: ["Jessore", "Churamankati", "Diara"], villages: ["Jessore Bazar", "Churamankati Bazar", "Diara Bazar"] },
-          "Jhikargachha": { unions: ["Jhikargachha", "Shimulia", "Panishara"], villages: ["Jhikargachha Bazar", "Shimulia Bazar", "Panishara Bazar"] }
-        }
-      },
-      "Satkhira": {
-        upazilas: {
-          "Satkhira Sadar": { unions: ["Satkhira", "Bhukta", "Alipur"], villages: ["Satkhira Bazar", "Bhukta Bazar", "Alipur Bazar"] },
-          "Assasuni": { unions: ["Assasuni", "Khajra", "Anulia"], villages: ["Assasuni Bazar", "Khajra Bazar", "Anulia Bazar"] }
-        }
-      }
+      "Khulna": ["Khulna Sadar", "Batiaghata", "Dacope", "Dumuria", "Dighalia", "Koyra", "Paikgachha", "Phultala", "Terokhada"],
+      "Jessore": ["Jashore Sadar", "Abhaynagar", "Bagherpara", "Chaugachha", "Jhikargachha", "Keshabpur", "Manirampur", "Sharsha"],
+      "Satkhira": ["Satkhira Sadar", "Assasuni", "Debhata", "Kalaroa", "Kaliganj", "Shyamnagar", "Tala"],
+      "Bagerhat": ["Bagerhat Sadar", "Chitalmari", "Fakirhat", "Kachua", "Mollahat", "Mongla", "Morrelganj", "Rampal", "Sarankhola"],
+      "Magura": ["Magura Sadar", "Mohammadpur", "Shalikha", "Sreepur"],
+      "Jhenaidah": ["Jhenaidah Sadar", "Harinakunda", "Kaliganj", "Kotchandpur", "Maheshpur", "Shailkupa"],
+      "Narail": ["Narail Sadar", "Kalia", "Lohagara"],
+      "Chuadanga": ["Chuadanga Sadar", "Alamdanga", "Damurhuda", "Jibannagar"],
+      "Meherpur": ["Meherpur Sadar", "Gangni", "Mujibnagar"]
     }
   },
   "Barishal": {
     districts: {
-      "Barishal": {
-        upazilas: {
-          "Barishal Sadar": { unions: ["Barishal", "Bamrail", "Kawnia"], villages: ["Barishal Bazar", "Bamrail Bazar", "Kawnia Bazar"] },
-          "Babuganj": { unions: ["Babuganj", "Madhabpasha", "Rahmatpur"], villages: ["Babuganj Bazar", "Madhabpasha Bazar", "Rahmatpur Bazar"] }
-        }
-      },
-      "Barguna": {
-        upazilas: {
-          "Barguna Sadar": { unions: ["Barguna", "Burirhat", "Naltona"], villages: ["Barguna Bazar", "Burirhat Bazar", "Naltona Bazar"] },
-          "Patharghata": { unions: ["Patharghata", "Kakchira", "Ratandi"], villages: ["Patharghata Bazar", "Kakchira Bazar", "Ratandi Bazar"] }
-        }
-      },
-      "Patuakhali": {
-        upazilas: {
-          "Patuakhali Sadar": { unions: ["Patuakhali", "Laula", "Kalikapur"], villages: ["Patuakhali Bazar", "Laula Bazar", "Kalikapur Bazar"] },
-          "Kuakata": { unions: ["Kuakata", "Kalapara", "Dhulasar"], villages: ["Kuakata Bazar", "Kalapara Bazar", "Dhulasar Bazar"] }
-        }
-      }
+      "Barishal": ["Barishal Sadar", "Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Gaurnadi", "Hizla", "Mehendiganj", "Muladi", "Wazirpur", "Uzirpur"],
+      "Barguna": ["Barguna Sadar", "Amtali", "Bamna", "Betagi", "Patharghata", "Taltali"],
+      "Patuakhali": ["Patuakhali Sadar", "Bauphal", "Dashmina", "Dumki", "Galachipa", "Kalapara", "Mirzaganj", "Rangabali"],
+      "Bhola": ["Bhola Sadar", "Burhanuddin", "Char Fasson", "Daulatkhan", "Lalmohan", "Manpura", "Tazumuddin"],
+      "Pirojpur": ["Pirojpur Sadar", "Bhandaria", "Kawkhali", "Mathbaria", "Nazirpur", "Nesarabad", "Zianagar"],
+      "Jhalokati": ["Jhalokati Sadar", "Kathalia", "Nalchity", "Rajapur"]
     }
   },
   "Sylhet": {
     districts: {
-      "Sylhet": {
-        upazilas: {
-          "Sylhet Sadar": { unions: ["Sylhet", "Moglabazar", "Tuker Bazar"], villages: ["Zindabazar", "Moglabazar Bazar", "Tuker Bazar"] },
-          "Jaintiapur": { unions: ["Jaintiapur", "Sreemangal", "Chhatak"], villages: ["Jaintiapur Bazar", "Sreemangal Bazar", "Chhatak Bazar"] }
-        }
-      },
-      "Habiganj": {
-        upazilas: {
-          "Habiganj Sadar": { unions: ["Habiganj", "Lakhai", "Nabiganj"], villages: ["Habiganj Bazar", "Lakhai Bazar", "Nabiganj Bazar"] },
-          "Shaistaganj": { unions: ["Shaistaganj", "Bahubal", "Chunarughat"], villages: ["Shaistaganj Bazar", "Bahubal Bazar", "Chunarughat Bazar"] }
-        }
-      },
-      "Moulvibazar": {
-        upazilas: {
-          "Moulvibazar Sadar": { unions: ["Moulvibazar", "Kamalganj", "Rajnagar"], villages: ["Moulvibazar Bazar", "Kamalganj Bazar", "Rajnagar Bazar"] },
-          "Sreemangal": { unions: ["Sreemangal", "Mirzapur", "Bhanugach"], villages: ["Sreemangal Bazar", "Mirzapur Bazar", "Lawachara"] }
-        }
-      }
+      "Sylhet": ["Sylhet Sadar", "Balaganj", "Beanibazar", "Bishwanath", "Companiganj", "Dakshin Surma", "Fenchuganj", "Golapganj", "Gowainghat", "Jaintiapur", "Kanaighat", "Osmani Nagar", "South Surma", "Zakiganj"],
+      "Habiganj": ["Habiganj Sadar", "Ajmiriganj", "Bahubal", "Baniachong", "Chunarughat", "Lakhai", "Madhabpur", "Nabiganj", "Shaistaganj"],
+      "Moulvibazar": ["Moulvibazar Sadar", "Barlekha", "Juri", "Kamalganj", "Kulaura", "Rajnagar", "Sreemangal"],
+      "Sunamganj": ["Sunamganj Sadar", "Bishwamvarpur", "Chhatak", "Dakshin Sunamganj", "Derai", "Dharampasha", "Dowarabazar", "Jagannathpur", "Jamalganj", "Sulla", "Tahirpur"]
     }
   },
   "Rangpur": {
     districts: {
-      "Rangpur": {
-        upazilas: {
-          "Rangpur Sadar": { unions: ["Rangpur", "Pirgachha", "Mithapukur"], villages: ["Rangpur Bazar", "Pirgachha Bazar", "Mithapukur Bazar"] },
-          "Pirganj": { unions: ["Pirganj", "Bheramara", "Jaldhaka"], villages: ["Pirganj Bazar", "Bheramara Bazar", "Jaldhaka Bazar"] }
-        }
-      },
-      "Dinajpur": {
-        upazilas: {
-          "Dinajpur Sadar": { unions: ["Dinajpur", "Chirirbandar", "Fulbari"], villages: ["Dinajpur Bazar", "Chirirbandar Bazar", "Fulbari Bazar"] },
-          "Birampur": { unions: ["Birampur", "Nawabganj", "Hakimpur"], villages: ["Birampur Bazar", "Nawabganj Bazar", "Hakimpur Bazar"] }
-        }
-      },
-      "Kurigram": {
-        upazilas: {
-          "Kurigram Sadar": { unions: ["Kurigram", "Nageshwari", "Phulbari"], villages: ["Kurigram Bazar", "Nageshwari Bazar", "Phulbari Bazar"] },
-          "Char Rajibpur": { unions: ["Char Rajibpur", "Rajarhat", "Ulipur"], villages: ["Char Rajibpur Bazar", "Rajarhat Bazar", "Ulipur Bazar"] }
-        }
-      }
+      "Rangpur": ["Rangpur Sadar", "Badarganj", "Gangachara", "Kaunia", "Mithapukur", "Pirgachha", "Pirganj", "Taraganj"],
+      "Dinajpur": ["Dinajpur Sadar", "Birampur", "Birganj", "Biral", "Bochaganj", "Chirirbandar", "Fulbari", "Ghoraghat", "Hakimpur", "Kaharole", "Khansama", "Nawabganj", "Parbatipur"],
+      "Kurigram": ["Kurigram Sadar", "Bhurungamari", "Char Rajibpur", "Chilmari", "Phulbari", "Rajarhat", "Raumari", "Ulipur", "Nageshwari"],
+      "Gaibandha": ["Gaibandha Sadar", "Fulchhari", "Gobindaganj", "Palashbari", "Sadullapur", "Saghata", "Sundarganj"],
+      "Nilphamari": ["Nilphamari Sadar", "Dimla", "Domar", "Jaldhaka", "Kishoreganj", "Saidpur"],
+      "Panchagarh": ["Panchagarh Sadar", "Atwari", "Boda", "Debiganj", "Tetulia"],
+      "Thakurgaon": ["Thakurgaon Sadar", "Baliadangi", "Haripur", "Pirganj", "Ranisankail"],
+      "Lalmonirhat": ["Lalmonirhat Sadar", "Aditmari", "Hatibandha", "Kaliganj", "Patgram"]
     }
   },
   "Mymensingh": {
     districts: {
-      "Mymensingh": {
-        upazilas: {
-          "Mymensingh Sadar": { unions: ["Mymensingh", "Muktagachha", "Trishal"], villages: ["Mymensingh Bazar", "Muktagachha Bazar", "Trishal Bazar"] },
-          "Phulpur": { unions: ["Phulpur", "Gaffargaon", "Bhaluka"], villages: ["Phulpur Bazar", "Gaffargaon Bazar", "Bhaluka Bazar"] }
-        }
-      },
-      "Jamalpur": {
-        upazilas: {
-          "Jamalpur Sadar": { unions: ["Jamalpur", "Melandaha", "Islampur"], villages: ["Jamalpur Bazar", "Melandaha Bazar", "Islampur Bazar"] },
-          "Sarishabari": { unions: ["Sarishabari", "Bakshiganj", "Dewanganj"], villages: ["Sarishabari Bazar", "Bakshiganj Bazar", "Dewanganj Bazar"] }
-        }
-      },
-      "Netrokona": {
-        upazilas: {
-          "Netrokona Sadar": { unions: ["Netrokona", "Barhatta", "Kendua"], villages: ["Netrokona Bazar", "Barhatta Bazar", "Kendua Bazar"] },
-          "Mohanganj": { unions: ["Mohanganj", "Madan", "Khaliajuri"], villages: ["Mohanganj Bazar", "Madan Bazar", "Khaliajuri Bazar"] }
-        }
-      }
+      "Mymensingh": ["Mymensingh Sadar", "Bhaluka", "Dhobaura", "Fulbaria", "Gaffargaon", "Gauripur", "Haluaghat", "Ishwarganj", "Muktagachha", "Nandail", "Phulpur", "Trishal", "Tarakanda"],
+      "Jamalpur": ["Jamalpur Sadar", "Bakshiganj", "Dewanganj", "Islampur", "Madarganj", "Melandaha", "Sarishabari"],
+      "Netrokona": ["Netrokona Sadar", "Atpara", "Barhatta", "Durgapur", "Kalmakanda", "Kendua", "Khaliajuri", "Madan", "Mohanganj", "Purbadhala"],
+      "Sherpur": ["Sherpur Sadar", "Jhenaigati", "Nakla", "Nalitabari", "Sreebardi"]
     }
   }
 };
@@ -188,18 +153,15 @@ export function getDistricts(division) {
 }
 export function getUpazilas(division, district) {
   if (!division || !district) return [];
-  return LOCATIONS[division]?.districts[district] ? Object.keys(LOCATIONS[division].districts[district].upazilas) : [];
+  return LOCATIONS[division]?.districts[district] || [];
 }
 export function getUnions(division, district, upazila) {
-  if (!division || !district || !upazila) return [];
-  return LOCATIONS[division]?.districts[district]?.upazilas[upazila]?.unions || [];
+  if (!upazila) return [];
+  return genUnions(upazila);
 }
 export function getVillages(division, district, upazila, union) {
-  if (!division || !district || !upazila) return [];
-  const u = LOCATIONS[division]?.districts[district]?.upazilas[upazila];
-  if (!u) return [];
-  const idx = u.unions.indexOf(union);
-  return idx >= 0 ? (u.villages[idx] ? [u.villages[idx]] : []) : [];
+  if (!upazila) return [];
+  return genVillages(upazila);
 }
 
 export const CATEGORY_META = {

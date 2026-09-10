@@ -11,9 +11,12 @@ import ProductCard from "@/components/ProductCard";
 import CategoryFilter, { RadiusSelector } from "@/components/CategoryFilter";
 import HatDaySchedule from "@/components/HatDaySchedule";
 import PriceBoard from "@/components/PriceBoard";
+import MinRateVendors from "@/components/MinRateVendors";
 import PostProductSheet from "@/components/PostProductSheet";
 import { Image } from "@/components/ui/image";
 import { cn } from "@/lib/utils";
+import { CATEGORY_META } from "@/lib/locations";
+import { useToast } from "@/components/ui/use-toast";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -26,6 +29,7 @@ export default function Home() {
   const [postOpen, setPostOpen] = useState(false);
 
   const { isOnline, pendingCount, addToQueue, syncQueue, syncing } = useOfflineSync();
+  const { toast } = useToast();
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -49,11 +53,18 @@ export default function Home() {
     setTextQuery(txt);
   }, []);
 
-  const { listening, transcript, supported: voiceSupported, start, stop, reset } = useVoiceSearch({ onResult: onVoiceResult });
+  const { listening, transcript, supported: voiceSupported, start, stop, reset } = useVoiceSearch({
+    onResult: onVoiceResult,
+    onError: (msg) => toast({ title: "Voice search", description: msg, variant: "destructive" })
+  });
 
   const toggleVoice = () => {
-    if (listening) { stop(); setTextQuery(""); reset(); }
-    else { setTextQuery(""); start(); }
+    if (listening) { stop(); setTextQuery(""); reset(); return; }
+    if (!voiceSupported) {
+      toast({ title: "Voice search", description: "Voice search isn't supported in this browser. Use Chrome or Edge.", variant: "destructive" });
+      return;
+    }
+    setTextQuery(""); start();
   };
 
   // Filter by location radius
@@ -75,11 +86,14 @@ export default function Home() {
     let list = locationFiltered;
     if (category !== "all") list = list.filter(p => p.category === category);
     const q = (textQuery || transcript || "").trim().toLowerCase();
-    if (q) list = list.filter(p =>
-      (p.name || "").toLowerCase().includes(q) ||
-      (p.name_bn || "").toLowerCase().includes(q) ||
-      (p.vendor_name || "").toLowerCase().includes(q)
-    );
+    if (q) list = list.filter(p => {
+      const cat = CATEGORY_META[p.category];
+      return (p.name || "").toLowerCase().includes(q) ||
+        (p.name_bn || "").toLowerCase().includes(q) ||
+        (p.vendor_name || "").toLowerCase().includes(q) ||
+        (cat?.label || "").toLowerCase().includes(q) ||
+        (cat?.label_bn || "").includes(q);
+    });
     return list;
   }, [locationFiltered, category, textQuery, transcript]);
 
@@ -300,8 +314,11 @@ export default function Home() {
 
           {/* RIGHT RAIL (desktop) */}
           <aside className="hidden lg:block">
-            <div className="bg-white rounded-2xl border border-slate-200 p-4 sticky top-24">
+            <div className="bg-white rounded-2xl border border-slate-200 p-4 sticky top-24 space-y-5">
               <PriceBoard products={locationFiltered} />
+              <div className="border-t border-slate-100 pt-4">
+                <MinRateVendors products={locationFiltered} />
+              </div>
             </div>
           </aside>
         </div>
