@@ -1,0 +1,105 @@
+{
+  "name": "Product",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Product Name"
+    },
+    "name_bn": {
+      "type": "string",
+      "title": "\u09a8\u09be\u09ae (Bengali)"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "rice",
+        "fish",
+        "vegetables",
+        "poultry",
+        "fruits",
+        "spices",
+        "other"
+      ],
+      "default": "other",
+      "title": "Category"
+    },
+    "price": {
+      "type": "number",
+      "title": "Price (\u09f3)"
+    },
+    "previous_price": {
+      "type": "number",
+      "title": "Previous Price (\u09f3)",
+      "default": 0
+    },
+    "unit": {
+      "type": "string",
+      "enum": [
+        "kg",
+        "gram",
+        "liter",
+        "piece",
+        "dozen",
+        "maund"
+      ],
+      "default": "kg",
+      "title": "Unit"
+    },
+    "image_url": {
+      "type": "string",
+      "title": "Image URL",
+      "format": "uri"
+    },
+    "division": {
+      "type": "string",
+      "title": "Division"
+    },
+    "district": {
+      "type": "string",
+      "title": "District"
+    },
+    "upazila": {
+      "type": "string",
+      "title": "Upazila"
+    },
+    "union": {
+      "type": "string",
+      "title": "Union"
+    },
+    "village": {
+      "type": "string",
+      "title": "Village"
+    },
+    "vendor_name": {
+      "type": "string",
+      "title": "Vendor Name"
+    },
+    "vendor_phone": {
+      "type": "string",
+      "title": "Vendor Phone"
+    },
+    "notes": {
+      "type": "string",
+      "title": "Notes / Update"
+    },
+    "hat_day": {
+      "type": "string",
+      "title": "Hat Day"
+    },
+    "is_offline_queued": {
+      "type": "boolean",
+      "default": false,
+      "title": "Offline Queued"
+    }
+  },
+  "required": [
+    "name",
+    "category",
+    "price",
+    "unit",
+    "division",
+    "district",
+    "upazila"
+  ]
+}

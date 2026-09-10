@@ -1,0 +1,59 @@
+{
+  "name": "HatDay",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Hat Name"
+    },
+    "day_of_week": {
+      "type": "string",
+      "enum": [
+        "Saturday",
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "title": "Day of Week"
+    },
+    "division": {
+      "type": "string",
+      "title": "Division"
+    },
+    "district": {
+      "type": "string",
+      "title": "District"
+    },
+    "upazila": {
+      "type": "string",
+      "title": "Upazila"
+    },
+    "union": {
+      "type": "string",
+      "title": "Union"
+    },
+    "village": {
+      "type": "string",
+      "title": "Village"
+    },
+    "next_date": {
+      "type": "string",
+      "format": "date",
+      "title": "Next Date"
+    },
+    "specialty": {
+      "type": "string",
+      "title": "Specialty"
+    }
+  },
+  "required": [
+    "name",
+    "day_of_week",
+    "division",
+    "district",
+    "upazila"
+  ]
+}
