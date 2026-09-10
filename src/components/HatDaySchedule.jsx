@@ -11,7 +11,7 @@ export default function HatDaySchedule({ hatDays, locationLabel }) {
     <div>
       <div className="flex items-center gap-2 mb-3">
         <div className="flex items-center justify-center w-8 h-8 rounded-full bg-amber-100">
-          <Sun className="w-4.5 h-4.5 text-amber-600" />
+          <Sun className="w-4 h-4 text-amber-600" />
         </div>
         <div>
           <h3 className="font-bold text-slate-900 text-sm">Hat Day Schedule</h3>
