@@ -1,0 +1,64 @@
+{
+  "name": "OtpCode",
+  "type": "object",
+  "properties": {
+    "channel": {
+      "type": "string",
+      "enum": [
+        "phone",
+        "email"
+      ],
+      "title": "Channel"
+    },
+    "target": {
+      "type": "string",
+      "title": "Target (phone/email)"
+    },
+    "code": {
+      "type": "string",
+      "title": "Code"
+    },
+    "expires_at": {
+      "type": "string",
+      "title": "Expires At (ISO)"
+    },
+    "attempts": {
+      "type": "number",
+      "default": 0,
+      "title": "Attempts"
+    },
+    "used": {
+      "type": "boolean",
+      "default": false,
+      "title": "Used"
+    }
+  },
+  "required": [
+    "channel",
+    "target",
+    "code",
+    "expires_at"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "__denied__"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "__denied__"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "__denied__"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "__denied__"
+      }
+    }
+  }
+}

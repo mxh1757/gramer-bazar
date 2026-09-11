@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Store, Plus, Pencil, Package, ArrowLeft, PackageOpen } from "lucide-react";
+import { Store, Plus, Pencil, Package, ArrowLeft, PackageOpen, BadgeCheck } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
@@ -75,7 +75,10 @@ export default function MyShop() {
               {vendor.photo_url ? <Image src={vendor.photo_url} fittingType="fill" className="w-full h-full" /> : <div className="w-full h-full flex items-center justify-center"><Store className="w-8 h-8 text-emerald-600" /></div>}
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl font-bold text-slate-900" style={{ fontFamily: "var(--font-display)" }}>{vendor.shop_name_bn || vendor.shop_name}</h1>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-2xl font-bold text-slate-900" style={{ fontFamily: "var(--font-display)" }}>{vendor.shop_name_bn || vendor.shop_name}</h1>
+                {vendor.contact_verified && <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-full"><BadgeCheck className="w-3.5 h-3.5" /> Verified</span>}
+              </div>
               <p className="text-sm text-slate-500">{[vendor.village, vendor.union, vendor.upazila].filter(Boolean).join(", ")}</p>
               {specs.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mt-2">

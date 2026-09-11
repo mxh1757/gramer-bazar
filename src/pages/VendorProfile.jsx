@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { MapPin, Phone, Store, Pencil, ArrowLeft, Package, Sun } from "lucide-react";
+import { MapPin, Phone, Store, Pencil, ArrowLeft, Package, Sun, BadgeCheck } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Image } from "@/components/ui/image";
@@ -67,7 +67,10 @@ export default function VendorProfile() {
               {vendor.photo_url ? <Image src={vendor.photo_url} fittingType="fill" className="w-full h-full" /> : <div className="w-full h-full flex items-center justify-center"><Store className="w-10 h-10 text-emerald-600" /></div>}
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl font-bold text-slate-900" style={{ fontFamily: "var(--font-display)" }}>{vendor.shop_name_bn || vendor.shop_name}</h1>
+              <div className="flex items-center gap-2 flex-wrap">
+                <h1 className="text-2xl font-bold text-slate-900" style={{ fontFamily: "var(--font-display)" }}>{vendor.shop_name_bn || vendor.shop_name}</h1>
+                {vendor.contact_verified && <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-100 px-2 py-1 rounded-full"><BadgeCheck className="w-3.5 h-3.5" /> Verified</span>}
+              </div>
               {vendor.shop_name_bn && vendor.shop_name && <p className="text-sm text-slate-400">{vendor.shop_name}</p>}
               <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2 text-sm text-slate-600">
                 <span className="flex items-center gap-1"><MapPin className="w-4 h-4 text-emerald-600" />{[vendor.village, vendor.union, vendor.upazila].filter(Boolean).join(", ")}</span>
