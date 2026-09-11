@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { Image } from "@/components/ui/image";
-import ProductCard from "@/components/ProductCard";
+import ManageProductCard from "@/components/ManageProductCard";
 import VendorFormSheet from "@/components/VendorFormSheet";
 import PostProductSheet from "@/components/PostProductSheet";
 import { CATEGORY_META } from "@/lib/locations";
@@ -104,7 +104,7 @@ export default function MyShop() {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {products.map(p => <ProductCard key={p.id} product={p} onCategoryClick={() => {}} />)}
+              {products.map(p => <ManageProductCard key={p.id} product={p} onUpdated={load} onDeleted={load} />)}
             </div>
           )}
         </div>
